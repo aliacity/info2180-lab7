@@ -1,17 +1,28 @@
-const httprequest= new XMLHttpRequest();
-const field = document.getElementById("country")
-const result = document.getElementById("result")
-
-document.getElementById("lookup").addEventListener("click", function (){
-   httprequest.open("GET",`world.php?country=${field.value}`,true)
+window.onload = () => {
+    const button = document.getElementById('lookup');
+    const result = document.getElementById('result');
+    const selectall = document.getElementById('all');
+    const searchfield = document.getElementById('country');
     
-   httprequest.send()
-   httprequest.onreadystatechange= function(){
-       if (httprequest.readyState=== XMLHttpRequest.DONE){
-         if(httprequest.status===200)  {
-             
-       result.innerHTML=httprequest.responseText
-         }
-       }
-   }
-});
+    const httprequest= new XMLHttpRequest();
+    
+    button.onclick = () => {
+        httprequest.onreadystatechange = handleRequest;
+        if (selectall.checked) {
+            httprequest.open('GET', 'world.php?all=true', true);
+        } else {
+            httprequest.open('GET', `world.php?country=${searchfield.value}`, true);
+        }
+        httprequest.send();
+    }
+    
+    const handleRequest = () => {
+        if (httprequest.readyState === XMLHttpRequest.DONE) {
+            if (httprequest.status === 200) {
+                result.innerHTML = httprequest.responseText;
+            } else {
+                alert('There was a problem processing this request.');
+            }
+        } 
+    }
+}
