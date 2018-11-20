@@ -11,7 +11,6 @@ $conn = new PDO("mysql:host=$host;dbname=$dbname", $username, $password);
 function querydatabase($queryrequest, $conn){
   $duh = $conn->query($queryrequest);
   $results = $duh->fetchAll(PDO::FETCH_ASSOC);
-  # header("Content-Type: text/html; charset=utf-8");
   echo '<ul>';
     foreach ($results as $row) {
       echo '<li>' . $row['name'] . ' is ruled by ' . $row['head_of_state'] . '</li>';
